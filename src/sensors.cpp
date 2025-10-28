@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cmath>
 
+#include "logging.h"
+
 namespace sensing {
 
 namespace {
@@ -21,6 +23,8 @@ void SensorSuite::begin() {
   pinMode(hw::PIN_SOIL_SENSOR, INPUT);
   pinMode(hw::PIN_LDR_SENSOR, INPUT);
   started_ = true;
+  LOG_INFO("sensors", "Initialized (soil pin %u, light pin %u, DHT pin %u)", hw::PIN_SOIL_SENSOR, hw::PIN_LDR_SENSOR,
+           hw::PIN_DHT);
 }
 
 EnvironmentReadings SensorSuite::sample() {
@@ -80,6 +84,9 @@ EnvironmentReadings SensorSuite::sample() {
   reading.lightRaw = lightRaw;
   reading.lightPct = lightPct;
   reading.lightValid = true;
+
+  LOG_DEBUG("sensors", "Sample raw soil=%u light=%u filtered soil=%.1f%% light=%.1f%% temp=%.1fC hum=%.1f%%",
+            soilRaw, lightRaw, soilPct, lightPct, reading.temperatureC, reading.humidityPct);
 
   return reading;
 }

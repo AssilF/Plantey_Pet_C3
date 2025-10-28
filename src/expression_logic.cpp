@@ -70,13 +70,11 @@ MoodResult ExpressionLogic::evaluate(const sensing::EnvironmentReadings& env) {
 MoodResult ExpressionLogic::makeJoyful(const sensing::EnvironmentReadings& env) {
   MoodResult mood;
   mood.mood = MoodKind::Joyful;
-  mood.face.title = "Feeling great!";
-  mood.face.subtitle = kTipHappy;
-  mood.face.mouthLevel = 3;
-  mood.face.eyelidLevel = -1;
-  mood.face.eyesHappy = true;
-  mood.face.showSparkle = true;
-  mood.face.showHeart = true;
+  mood.face.eyeOpenness = 2;
+  mood.face.eyeSmile = 3;
+  mood.face.mouthCurve = 3;
+  mood.face.mouthOpen = 1;
+  mood.face.blush = true;
   mood.tip = kTipHappy;
   return mood;
 }
@@ -84,12 +82,11 @@ MoodResult ExpressionLogic::makeJoyful(const sensing::EnvironmentReadings& env) 
 MoodResult ExpressionLogic::makeThirsty(const sensing::EnvironmentReadings& env) {
   MoodResult mood;
   mood.mood = MoodKind::Thirsty;
-  mood.face.title = "I'm thirsty...";
-  mood.face.subtitle = kTipThirsty;
-  mood.face.mouthLevel = -2;
-  mood.face.eyelidLevel = 3;
-  mood.face.eyesHappy = false;
-  mood.face.showTear = true;
+  mood.face.eyeOpenness = -2;
+  mood.face.eyeSmile = -1;
+  mood.face.mouthCurve = -3;
+  mood.face.mouthOpen = 0;
+  mood.face.gazeY = 1;
   mood.tip = kTipThirsty;
   return mood;
 }
@@ -97,12 +94,11 @@ MoodResult ExpressionLogic::makeThirsty(const sensing::EnvironmentReadings& env)
 MoodResult ExpressionLogic::makeOverwatered(const sensing::EnvironmentReadings& env) {
   MoodResult mood;
   mood.mood = MoodKind::Overwatered;
-  mood.face.title = "Too soggy!";
-  mood.face.subtitle = kTipSoggy;
-  mood.face.mouthLevel = -3;
-  mood.face.eyelidLevel = 2;
-  mood.face.eyesHappy = false;
-  mood.face.showSweat = true;
+  mood.face.eyeOpenness = -3;
+  mood.face.eyeSmile = -2;
+  mood.face.mouthCurve = -3;
+  mood.face.mouthOpen = 1;
+  mood.face.gazeY = 2;
   mood.tip = kTipSoggy;
   return mood;
 }
@@ -110,11 +106,11 @@ MoodResult ExpressionLogic::makeOverwatered(const sensing::EnvironmentReadings& 
 MoodResult ExpressionLogic::makeSleepy(const sensing::EnvironmentReadings& env) {
   MoodResult mood;
   mood.mood = MoodKind::Sleepy;
-  mood.face.title = "Sleepy time";
-  mood.face.subtitle = kTipSleepy;
-  mood.face.mouthLevel = 0;
-  mood.face.eyelidLevel = 4;
-  mood.face.eyesHappy = true;
+  mood.face.eyeOpenness = -4;
+  mood.face.eyeSmile = 1;
+  mood.face.mouthCurve = -1;
+  mood.face.mouthOpen = 0;
+  mood.face.gazeY = 2;
   mood.tip = kTipSleepy;
   return mood;
 }
@@ -122,11 +118,11 @@ MoodResult ExpressionLogic::makeSleepy(const sensing::EnvironmentReadings& env) 
 MoodResult ExpressionLogic::makeLightHungry(const sensing::EnvironmentReadings& env) {
   MoodResult mood;
   mood.mood = MoodKind::SeekingLight;
-  mood.face.title = "Need sunshine";
-  mood.face.subtitle = kTipLightHungry;
-  mood.face.mouthLevel = -1;
-  mood.face.eyelidLevel = 1;
-  mood.face.eyesHappy = false;
+  mood.face.eyeOpenness = 0;
+  mood.face.eyeSmile = -1;
+  mood.face.mouthCurve = -1;
+  mood.face.mouthOpen = 0;
+  mood.face.gazeY = -2;
   mood.tip = kTipLightHungry;
   return mood;
 }
@@ -134,12 +130,11 @@ MoodResult ExpressionLogic::makeLightHungry(const sensing::EnvironmentReadings& 
 MoodResult ExpressionLogic::makeTooBright(const sensing::EnvironmentReadings& env) {
   MoodResult mood;
   mood.mood = MoodKind::TooBright;
-  mood.face.title = "Too bright!";
-  mood.face.subtitle = kTipTooBright;
-  mood.face.mouthLevel = -1;
-  mood.face.eyelidLevel = 2;
-  mood.face.eyesHappy = false;
-  mood.face.showSweat = true;
+  mood.face.eyeOpenness = -1;
+  mood.face.eyeSmile = -3;
+  mood.face.mouthCurve = -2;
+  mood.face.mouthOpen = 1;
+  mood.face.gazeX = -2;
   mood.tip = kTipTooBright;
   return mood;
 }
@@ -147,12 +142,11 @@ MoodResult ExpressionLogic::makeTooBright(const sensing::EnvironmentReadings& en
 MoodResult ExpressionLogic::makeTooHot(const sensing::EnvironmentReadings& env) {
   MoodResult mood;
   mood.mood = MoodKind::TooHot;
-  mood.face.title = "I'm overheating";
-  mood.face.subtitle = kTipTooHot;
-  mood.face.mouthLevel = -2;
-  mood.face.eyelidLevel = 2;
-  mood.face.eyesHappy = false;
-  mood.face.showSweat = true;
+  mood.face.eyeOpenness = -1;
+  mood.face.eyeSmile = -2;
+  mood.face.mouthCurve = -2;
+  mood.face.mouthOpen = 2;
+  mood.face.gazeX = 1;
   mood.tip = kTipTooHot;
   return mood;
 }
@@ -160,11 +154,11 @@ MoodResult ExpressionLogic::makeTooHot(const sensing::EnvironmentReadings& env) 
 MoodResult ExpressionLogic::makeTooCold(const sensing::EnvironmentReadings& env) {
   MoodResult mood;
   mood.mood = MoodKind::TooCold;
-  mood.face.title = "Brrr...";
-  mood.face.subtitle = kTipTooCold;
-  mood.face.mouthLevel = -1;
-  mood.face.eyelidLevel = 1;
-  mood.face.eyesHappy = false;
+  mood.face.eyeOpenness = 1;
+  mood.face.eyeSmile = -1;
+  mood.face.mouthCurve = -1;
+  mood.face.mouthOpen = 0;
+  mood.face.gazeX = 2;
   mood.tip = kTipTooCold;
   return mood;
 }
@@ -172,11 +166,11 @@ MoodResult ExpressionLogic::makeTooCold(const sensing::EnvironmentReadings& env)
 MoodResult ExpressionLogic::makeCurious(const sensing::EnvironmentReadings& env) {
   MoodResult mood;
   mood.mood = MoodKind::Curious;
-  mood.face.title = "Hello!";
-  mood.face.subtitle = kTipCurious;
-  mood.face.mouthLevel = 1;
-  mood.face.eyelidLevel = 0;
-  mood.face.eyesHappy = true;
+  mood.face.eyeOpenness = 1;
+  mood.face.eyeSmile = 1;
+  mood.face.mouthCurve = 1;
+  mood.face.mouthOpen = 1;
+  mood.face.winkRight = true;
   mood.tip = kTipCurious;
   return mood;
 }

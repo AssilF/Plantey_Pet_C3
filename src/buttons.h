@@ -4,7 +4,7 @@
 
 namespace input {
 
-enum class ButtonId : uint8_t { Left = 0, Right = 1 };
+enum class ButtonId : uint8_t { Left = 0, Right = 1, Both = 2 };
 
 enum class ButtonEventType : uint8_t {
   None = 0,
@@ -24,6 +24,7 @@ class Button {
   Button(uint8_t pin, ButtonId id, bool activeLow, uint16_t debounceMs, uint16_t longPressMs);
   void begin();
   ButtonEvent update(uint32_t nowMs);
+  bool isPressed() const { return stableState_; }
 
  private:
   uint8_t pin_;
@@ -48,6 +49,10 @@ class ButtonInput {
  private:
   Button left_;
   Button right_;
+  bool comboActive_ = false;
+  bool comboLatched_ = false;
+  bool suppressSingles_ = false;
+  bool pendingComboRelease_ = false;
 };
 
 }  // namespace input

@@ -5,14 +5,18 @@
 namespace hw {
 
 // Pin map for the ESP32-C3 Super Mini (adjust if using a different variant).
-constexpr uint8_t PIN_SOIL_SENSOR = 0;    // ADC1_CH0
-constexpr uint8_t PIN_LDR_SENSOR = 1;     // ADC1_CH1
-constexpr uint8_t PIN_DHT = 3;
-constexpr uint8_t PIN_BUTTON_LEFT = 6;
-constexpr uint8_t PIN_BUTTON_RIGHT = 7;
-constexpr uint8_t PIN_BUZZER = 2;
-constexpr uint8_t PIN_I2C_SDA = 8;
-constexpr uint8_t PIN_I2C_SCL = 9;
+constexpr uint8_t PIN_SOIL_SENSOR = 0;     // ADC1_CH0, low-noise soil capacitive input
+constexpr uint8_t PIN_LDR_SENSOR = 1;      // ADC1_CH1, photoresistor divider
+constexpr uint8_t PIN_BATTERY_SENSE = 4;   // ADC1_CH4 via high-value divider
+constexpr uint8_t PIN_DHT = 3;             // Dedicated digital for DHT data
+constexpr uint8_t PIN_I2C_SDA = 8;         // I2C SDA (default on ESP32-C3)
+constexpr uint8_t PIN_I2C_SCL = 9;         // I2C SCL (default on ESP32-C3)
+constexpr uint8_t PIN_BUTTON_LEFT = 20;    // General-purpose pad (GPIO20)
+constexpr uint8_t PIN_BUTTON_RIGHT = 21;   // General-purpose pad (GPIO21)
+constexpr uint8_t PIN_RGB_RED = 5;         // PWM-capable, high-current pad
+constexpr uint8_t PIN_RGB_GREEN = 6;       // PWM-capable
+constexpr uint8_t PIN_RGB_BLUE = 7;        // PWM-capable
+constexpr uint8_t PIN_BUZZER = 2;          // LEDC tone output (post-boot safe)
 
 // LEDC (PWM) configuration for the piezo buzzer.
 constexpr uint8_t BUZZER_LEDC_CHANNEL = 0;

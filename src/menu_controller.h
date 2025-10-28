@@ -14,26 +14,55 @@ enum class CalibrationTarget : uint8_t {
 };
 
 struct MenuState {
-  display::PageId page = display::PageId::Mood;
-  uint8_t pageIndex = 0;
-  uint8_t pageCount = 4;
+  bool inMenu = true;
+  display::PageId activeScreen = display::PageId::Mood;
+  uint8_t screenIndex = 0;
+  uint8_t screenCount = 0;
 };
 
 struct MenuAction {
-  bool pageChanged = false;
+  bool openScreen = false;
+  bool returnToMenu = false;
+  display::PageId screen;
   CalibrationTarget calibration = CalibrationTarget::None;
-  int8_t contrastDelta = 0;
   bool playDemoChord = false;
+  bool triggerProfileFetch = false;
+  int8_t presetDelta = 0;
+  bool resetProfile = false;
 };
 
 class MenuController {
  public:
-  void begin(uint8_t pageCount);
+  void begin(const display::PageId* screens, uint8_t screenCount);
   MenuAction handleEvent(const input::ButtonEvent& event);
   const MenuState& state() const { return state_; }
+  void buildMenuView(display::MenuListView* view) const;
 
  private:
-  void changePage(int8_t delta);
+  void moveSelection(int8_t delta);
+  MenuAction activateSelection();
+  void enterScreen(display::PageId screen);
+  void nextScreen();
+  void previousScreen();
+  void pushMenu(uint8_t submenuIndex);
+  void popMenu();
+  void syncState();
+
+  static constexpr uint8_t kMaxDepth = 4;
+
+  const display::PageId* screens_ = nullptr;
+  uint8_t screenCount_ = 0;
+
+  struct StackEntry {
+    uint8_t menuIndex = 0;
+    uint8_t selection = 0;
+  };
+
+  StackEntry stack_[kMaxDepth];
+  uint8_t depth_ = 0;
+  bool inMenu_ = true;
+  display::PageId activeScreen_;
+  uint8_t activeScreenIndex_ = 0;
   MenuState state_;
 };
 

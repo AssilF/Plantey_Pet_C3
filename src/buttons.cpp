@@ -75,11 +75,51 @@ void ButtonInput::begin() {
 
 ButtonEvent ButtonInput::poll() {
   uint32_t now = millis();
-  ButtonEvent evt = left_.update(now);
-  if (evt.type != ButtonEventType::None) {
-    return evt;
+  ButtonEvent leftEvt = left_.update(now);
+  ButtonEvent rightEvt = right_.update(now);
+
+  bool leftDown = left_.isPressed();
+  bool rightDown = right_.isPressed();
+
+  if (leftDown && rightDown) {
+    if (!comboActive_) {
+      comboActive_ = true;
+      comboLatched_ = false;
+    }
+  } else {
+    comboActive_ = false;
+    comboLatched_ = false;
   }
-  return right_.update(now);
+
+  if (pendingComboRelease_) {
+    if (!leftDown && !rightDown) {
+      pendingComboRelease_ = false;
+      suppressSingles_ = false;
+    }
+    return {};
+  }
+
+  if (comboActive_ && !comboLatched_) {
+    comboLatched_ = true;
+    suppressSingles_ = true;
+    pendingComboRelease_ = true;
+    ButtonEvent combo;
+    combo.id = ButtonId::Both;
+    combo.type = ButtonEventType::Click;
+    return combo;
+  }
+
+  if (comboActive_ || suppressSingles_) {
+    return {};
+  }
+
+  if (leftEvt.type != ButtonEventType::None) {
+    return leftEvt;
+  }
+  if (rightEvt.type != ButtonEventType::None) {
+    return rightEvt;
+  }
+  return {};
 }
 
 }  // namespace input
